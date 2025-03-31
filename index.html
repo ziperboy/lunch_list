@@ -63,20 +63,45 @@
         }
         #map { 
             height: 60vh;
+            min-height: 60vh;
             width: 100%;
         }
         .sidebar {
             padding: 10px 20px;
             background-color: #f8f9fa;
+            height: 40vh;
+            max-height: 40vh;
+            overflow-y: auto;
         }
         .restaurant-list {
             list-style: none;
             padding: 0;
             display: flex;
-            flex-wrap: wrap;
             gap: 10px;
             margin-bottom: 15px;
+            overflow-x: auto;
+            white-space: nowrap;
+            padding-bottom: 10px;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: thin;
+            scrollbar-color: #339af0 #f8f9fa;
+            cursor: grab;
         }
+        
+        .restaurant-list::-webkit-scrollbar {
+            height: 8px;
+        }
+        
+        .restaurant-list::-webkit-scrollbar-track {
+            background: #f8f9fa;
+            border-radius: 4px;
+        }
+        
+        .restaurant-list::-webkit-scrollbar-thumb {
+            background-color: #339af0;
+            border-radius: 4px;
+        }
+
         .restaurant-list li { 
             padding: 10px 15px;
             background: #e7f5ff;
@@ -84,15 +109,13 @@
             cursor: pointer;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
             min-width: 80px;
-            max-width: 150px;
+            flex-shrink: 0;
             text-align: center;
             transition: all 0.3s ease;
             border: 2px solid transparent;
             color: #339af0;
             font-weight: 500;
             white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
         }
         .restaurant-list li:hover {
             background: #d0ebff;
@@ -109,6 +132,8 @@
             border-radius: 8px;
             padding: 15px 20px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            max-height: 200px;
+            overflow-y: auto;
         }
         .menu-title {
             font-size: 1.5rem;
@@ -117,14 +142,16 @@
             border-bottom: 1px solid #dee2e6;
         }
         .menu-items {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            display: flex;
+            flex-direction: column;
             gap: 10px;
         }
         .menu-item {
             display: flex;
             justify-content: space-between;
             padding: 8px 0;
+            width: 100%;
+            border-bottom: 1px solid #eee;
         }
         .menu-name {
             font-weight: 500;
@@ -145,11 +172,34 @@
             padding: 20px;
             color: #6c757d;
         }
+        .dice-button {
+            position: absolute;
+            top: 80px;
+            right: 10px;
+            z-index: 1000;
+            background: white;
+            border: 2px solid rgba(0,0,0,0.2);
+            border-radius: 4px;
+            width: 34px;
+            height: 34px;
+            cursor: pointer;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        .dice-button:hover {
+            background: #f8f9fa;
+            transform: scale(1.1);
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <div id="map"></div>
+        <div id="map">
+            <button class="dice-button" id="randomButton">🎲</button>
+        </div>
         <div class="sidebar">
             <h2>경희대 맛집 목록</h2>
             <ul class="restaurant-list" id="restaurantList"></ul>
@@ -349,6 +399,176 @@
                     { "name": "연두부샐러드", "price": "5,900원" },
                     { "name": "콩앤콩샐러드", "price": "6,900원" }
                 ]
+            },
+            {
+                "name": "멕시모부리또",
+                "location": [37.248267, 127.075307],
+                "menus": [
+                    { "name": "치즈돈까스", "price": "6,000원" },
+                    { "name": "크림치즈 함박 스테이크", "price": "6,000원" },
+                    { "name": "폴드포크어니언 하드타코셋트", "price": "7,500원" },
+                    { "name": "폴드포크어니언하드타코", "price": "5,500원" },
+                    { "name": "아보카도치폴레치킨하드타코셋트", "price": "7,500원" },
+                    { "name": "아보카도 치폴레치킨하드타코", "price": "5,500원" },
+                    { "name": "BBQbeef어니언 하드타코셋트", "price": "7,500원" },
+                    { "name": "BBQ beef 어니언하드타코", "price": "5,500원" },
+                    { "name": "바질새우옥수수하드타코셧트", "price": "7,500원" },
+                    { "name": "바질새우 옥수수하드타코", "price": "5,500원" },
+                    { "name": "베지(콰카몰리)하드타코셧트", "price": "7,500원" },
+                    { "name": "베지(콰카몰리)하드타코", "price": "5,500원" }
+                ]
+            },
+            {
+                "name": "돈부리인생",
+                "location": [37.248087, 127.075048],
+                "menus": [
+                    { "name": "안심가츠동", "price": "6,900원" },
+                    { "name": "등심가츠동", "price": "7,300원" },
+                    { "name": "새우가츠동", "price": "6,900원" },
+                    { "name": "등심돈가스", "price": "7,300원" },
+                    { "name": "안심돈가스", "price": "7,700원" },
+                    { "name": "치즈돈가스 4pc", "price": "6,900원" }
+                ]
+            },
+            {
+                "name": "최고반점",
+                "location": [37.248321, 127.075920],
+                "menus": [
+                    { "name": "짜장면", "price": "8,000원" },
+                    { "name": "차돌짬뽕", "price": "13,000원" },
+                    { "name": "팔보채", "price": "35,000원" },
+                    { "name": "미니탕수육+쟁반짜장(2인)", "price": "30,000원" },
+                    { "name": "삼선쟁반짜장(1인분)", "price": "11,000원" },
+                    { "name": "삼선쟁반짜장(1인 곱)", "price": "12,000원" },
+                    { "name": "삼선쟁반짜장(2인분)", "price": "21,000원" }
+                ]
+            },
+            {
+                "name": "이삭토스트",
+                "location": [37.248454, 127.075906],
+                "menus": [
+                    { "name": "소이 크런치 치킨 세트", "price": "7,600원" },
+                    { "name": "소이 크런치 치킨", "price": "4,900원" },
+                    { "name": "리얼 양념치킨 세트", "price": "7,500원" },
+                    { "name": "리얼 양념치킨", "price": "4,800원" },
+                    { "name": "프렌치 햄치즈", "price": "3,600원" },
+                    { "name": "프렌치 햄치즈 세트", "price": "6,300원" },
+                    { "name": "스크램블 햄치즈 세트", "price": "6,400원" },
+                    { "name": "스크램블 햄치즈", "price": "3,700원" }
+                ]
+            },
+            {
+                "name": "겐코",
+                "location": [37.248505, 127.075912],
+                "menus": [
+                    { "name": "대창덮밥(M)", "price": "13,000원" },
+                    { "name": "스테이크덮밥(M)", "price": "13,000원" },
+                    { "name": "차슈라멘(타마고 미포함)(M)", "price": "11,500원" },
+                    { "name": "미소라멘(M)", "price": "10,500원" },
+                    { "name": "시오버터라멘(M)", "price": "11,000원" },
+                    { "name": "규동(M)", "price": "10,000원" },
+                    { "name": "차슈동(M)", "price": "9,500원" },
+                    { "name": "부타동(M)", "price": "9,500원" },
+                    { "name": "육회동(M)", "price": "10,000원" },
+                    { "name": "새우장동(M)", "price": "10,000원" },
+                    { "name": "돈코츠라멘(M)", "price": "10,000원" }
+                ]
+            },
+            {
+                "name": "키와마루아지",
+                "location": [37.248305, 127.076109],
+                "menus": [
+                    { "name": "미라멘", "price": "7,500원" },
+                    { "name": "특미라멘", "price": "9,000원" },
+                    { "name": "극라멘", "price": "8,500원" },
+                    { "name": "츠케멘", "price": "9,000원" },
+                    { "name": "부타동", "price": "8,500원" },
+                    { "name": "규동", "price": "8,500원" },
+                    { "name": "차슈동", "price": "9,500원" },
+                    { "name": "특차슈동", "price": "11,000원" }
+                ]
+            },
+            {
+                "name": "토종한우 숯불화로구이",
+                "location": [37.248480, 127.076756],
+                "menus": [
+                    { "name": "평양물/비빔냉면", "price": "8,000원" },
+                    { "name": "한돈김치찌개", "price": "8,000원" },
+                    { "name": "육회비빔밥", "price": "10,000원" },
+                    { "name": "왕갈비탕", "price": "14,000원" },
+                    { "name": "뚝배기돈갈비찜", "price": "11,000원" },
+                    { "name": "돼지갈비", "price": "15,000원" }
+                ]
+            },
+            {
+                "name": "찜생찜사",
+                "location": [37.248315, 127.077031],
+                "menus": [
+                    { "name": "삼겹김치찜(2인분)", "price": "24,000원" },
+                    { "name": "앞다리살 김치찜(2인분)", "price": "23,000원" },
+                    { "name": "목살김치찜(2인분)", "price": "23,000원" },
+                    { "name": "모둠돼지김치찜(2인분)", "price": "24,000원" },
+                    { "name": "스팸김치찜(2인분)", "price": "23,000원" },
+                    { "name": "참치김치찜(2인분)", "price": "23,000원" },
+                    { "name": "고등어김치찜(2인분)", "price": "23,000원" },
+                    { "name": "꽁치 김치찜(2인분)", "price": "23,000원" },
+                    { "name": "직화 제육볶음(2인분)", "price": "21,000원" },
+                    { "name": "직화 쭈꾸미볶음(2인분)", "price": "25,000원" },
+                    { "name": "김치찜 혼밥세트", "price": "11,000원" }
+                ]
+            },
+            {
+                "name": "신가네",
+                "location": [37.248495, 127.077889],
+                "menus": [
+                    { "name": "뚝배기 소불고기", "price": "11,000원" },
+                    { "name": "뚝배기제육", "price": "9,500원" },
+                    { "name": "부대찌개", "price": "10,000원" },
+                    { "name": "순두부찌개", "price": "9,000원" },
+                    { "name": "된장찌개", "price": "9,000원" },
+                    { "name": "김치찌개", "price": "9,000원" }
+                ]
+            },
+            {
+                "name": "원조 한국 순대국",
+                "location": [37.248495, 127.078379],
+                "menus": [
+                    { "name": "순대국", "price": "10,000원" },
+                    { "name": "우거지해장국", "price": "10,000원" },
+                    { "name": "삼계탕", "price": "14,000원" },
+                    { "name": "모듬(순대, 고기)", "price": "30,000원" },
+                    { "name": "고기 한 접시", "price": "15,000원" }
+                ]
+            },
+            {
+                "name": "얜시부",
+                "location": [37.248354, 127.078432],
+                "menus": [
+                    { "name": "마라훠궈", "price": "25,000원" },
+                    { "name": "마라탕", "price": "6,000원" },
+                    { "name": "마라샹궈", "price": "15,000원" },
+                    { "name": "꿔바로우", "price": "14,000원" }
+                ]
+            },
+            {
+                "name": "경돈까스",
+                "location": [37.248324, 127.077878],
+                "menus": [
+                    { "name": "돈가스곱빼기", "price": "7,900원" },
+                    { "name": "안심돈가스", "price": "8,500원" },
+                    { "name": "옛날왕돈가스", "price": "8,500원" },
+                    { "name": "돈가스모밀세트", "price": "9,500원" },
+                    { "name": "냉모밀", "price": "7,000원" },
+                    { "name": "얼큰뚝배기", "price": "9,800원" },
+                    { "name": "모듬까스", "price": "16,000원" },
+                    { "name": "매콤돈가스", "price": "8,500원" },
+                    { "name": "치즈돈가스", "price": "8,500원" },
+                    { "name": "고구마치즈돈가스", "price": "9,000원" },
+                    { "name": "안심우동세트", "price": "9,900원" },
+                    { "name": "가쯔오우동", "price": "6,500원" },
+                    { "name": "새우가스우동", "price": "9,000원" },
+                    { "name": "새우까스모밀", "price": "9,500원" }
+                ]
             }
         ];
 
@@ -359,12 +579,20 @@
 
         // 지도 초기화 함수
         function initializeMap() {
-            // 지도 초기화 - 첫 번째 식당을 기준으로 중심 설정
             const map = L.map('map').setView(restaurants[0].location, 15);
             
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 attribution: '© OpenStreetMap contributors'
             }).addTo(map);
+
+            // 마커 배열 저장을 위한 변수
+            const markers = [];
+
+            // 랜덤 선택 버튼 이벤트 추가
+            document.getElementById('randomButton').addEventListener('click', () => {
+                const randomIndex = Math.floor(Math.random() * restaurants.length);
+                selectRestaurant(randomIndex, map, markers);
+            });
 
             // 식당 목록 생성
             const restaurantList = document.getElementById('restaurantList');
@@ -374,25 +602,51 @@
                 // 상단 목록에 식당 추가
                 const listItem = document.createElement('li');
                 listItem.textContent = restaurant.name;
-                listItem.onclick = () => selectRestaurant(index, map);
+                listItem.onclick = () => selectRestaurant(index, map, markers);
                 restaurantList.appendChild(listItem);
 
-                // 마커 생성
-                const marker = L.marker(restaurant.location)
-                    .addTo(map)
-                    .bindPopup(`<div class="popup-title">${restaurant.name}</div>메뉴를 보려면 클릭하세요`);
+                // 마커 생성 및 배열에 저장
+                const marker = L.marker(restaurant.location, {
+                    icon: L.icon({
+                        iconUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon.png',
+                        iconSize: [25, 41],
+                        iconAnchor: [12, 41],
+                        popupAnchor: [1, -34]
+                    })
+                }).addTo(map)
+                .bindPopup(`<div class="popup-title">${restaurant.name}</div>`);
+
+                markers.push(marker);
 
                 // 마커 클릭 이벤트
                 marker.on('click', () => {
-                    selectRestaurant(index, map);
+                    selectRestaurant(index, map, markers);
                 });
             });
         }
 
         // 식당 선택 시 호출되는 함수
-        function selectRestaurant(index, map) {
+        function selectRestaurant(index, map, markers) {
+            // 모든 마커를 기본 크기와 색상으로 변경
+            markers.forEach(marker => {
+                marker.setIcon(L.icon({
+                    iconUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon.png',
+                    iconSize: [25, 41],
+                    iconAnchor: [12, 41],
+                    popupAnchor: [1, -34]
+                }));
+            });
+
+            // 선택된 마커를 빨간색으로 변경하고 1.5배 크기로 설정
+            markers[index].setIcon(L.icon({
+                iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png',
+                iconSize: [37, 61],  // 기존 크기의 1.5배
+                iconAnchor: [18, 61],
+                popupAnchor: [1, -51]
+            }));
+
             // 지도 이동
-            map.setView(restaurants[index].location, 17);
+            map.setView(restaurants[index].location, 20);
             
             // 메뉴 표시
             displayMenu(index);
@@ -441,6 +695,47 @@
                 menuItems.appendChild(menuItem);
             });
         }
+
+        // 가로 스크롤을 위한 이벤트 리스너 추가
+        document.addEventListener('DOMContentLoaded', function() {
+            const restaurantList = document.querySelector('.restaurant-list');
+            
+            // 마우스 휠 이벤트
+            restaurantList.addEventListener('wheel', function(e) {
+                e.preventDefault();
+                restaurantList.scrollLeft += e.deltaY;
+            });
+
+            // 터치 스크롤 이벤트
+            let isDown = false;
+            let startX;
+            let scrollLeft;
+
+            restaurantList.addEventListener('mousedown', (e) => {
+                isDown = true;
+                restaurantList.style.cursor = 'grabbing';
+                startX = e.pageX - restaurantList.offsetLeft;
+                scrollLeft = restaurantList.scrollLeft;
+            });
+
+            restaurantList.addEventListener('mouseleave', () => {
+                isDown = false;
+                restaurantList.style.cursor = 'grab';
+            });
+
+            restaurantList.addEventListener('mouseup', () => {
+                isDown = false;
+                restaurantList.style.cursor = 'grab';
+            });
+
+            restaurantList.addEventListener('mousemove', (e) => {
+                if (!isDown) return;
+                e.preventDefault();
+                const x = e.pageX - restaurantList.offsetLeft;
+                const walk = (x - startX) * 2;
+                restaurantList.scrollLeft = scrollLeft - walk;
+            });
+        });
 
         // 페이지 로드 시 데이터 불러오기
         loadRestaurantData();
