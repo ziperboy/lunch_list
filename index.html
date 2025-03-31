@@ -172,36 +172,50 @@
             padding: 20px;
             color: #6c757d;
         }
-        .dice-button {
-            position: absolute;
-            top: 80px;
-            right: 10px;
-            z-index: 1000;
-            background: white;
-            border: 2px solid rgba(0,0,0,0.2);
-            border-radius: 4px;
-            width: 34px;
-            height: 34px;
-            cursor: pointer;
-            font-size: 20px;
+        .header-container {
             display: flex;
             align-items: center;
+            margin-bottom: 15px;
+            gap: 10px;
+        }
+
+        .dice-button {
+            position: static;  /* absolute 제거 */
+            display: inline-flex;
+            align-items: center;
             justify-content: center;
+            background: white;
+            border: 2px solid #339af0;
+            border-radius: 4px;
+            width: 40px;  /* 크기 증가 */
+            height: 40px;  /* 크기 증가 */
+            cursor: pointer;
+            font-size: 24px;  /* 폰트 크기 증가 */
             transition: all 0.3s ease;
         }
+        
         .dice-button:hover {
-            background: #f8f9fa;
+            background: #e7f5ff;
             transform: scale(1.1);
+        }
+
+        @media (max-width: 768px) {
+            .dice-button {
+                width: 44px;  /* 모바일에서 더 크게 */
+                height: 44px;
+                font-size: 28px;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div id="map">
-            <button class="dice-button" id="randomButton">🎲</button>
-        </div>
+        <div id="map"></div>
         <div class="sidebar">
-            <h2>경희대 맛집 목록</h2>
+            <div class="header-container">
+                <button class="dice-button" id="randomButton">🎲</button>
+                <h2>경희대 맛집 목록</h2>
+            </div>
             <ul class="restaurant-list" id="restaurantList"></ul>
             <div id="menuContainer" class="menu-container">
                 <div class="no-restaurant" id="noRestaurant">
